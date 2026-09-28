@@ -2,13 +2,24 @@
 
 namespace BoilerSystem.View;
 
+/// <summary>
+/// Contains all console display methods.
+/// </summary>
 public static class DisplayView
 {
+    /// <summary>
+    /// Displays the message in the console.
+    /// </summary>
+    /// <param name="message"> Message to display. </param>
     public static void DisplayMessage(string message)
     {
         Console.WriteLine(message);
     }
 
+    /// <summary>
+    /// Displays the log in console.
+    /// </summary>
+    /// <param name="logs"> List of logs to display. </param>
     public static void DisplayLogs(List<string> logs)
     {
         int totalPage = (logs.Count / 5) + 1;

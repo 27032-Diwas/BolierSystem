@@ -1,13 +1,19 @@
 ﻿using BoilerSystem.Enums;
-using BoilerSystem.Service;
 using BoilerSystem.View;
-using System.Reflection.Metadata;
 
 namespace BoilerSystem.Controller;
 
+/// <summary>
+/// Coordinates between view and boiler system controller.
+/// </summary>
 public class MainMenuController
 {
     private readonly BoilerSystemController _controller;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BoilerSystemController"/> class.
+    /// </summary>
+    /// <param name="boilerSystemController"> Instance of boiler system controller. </param>
     public MainMenuController(BoilerSystemController boilerSystemController)
     {
         this._controller = boilerSystemController;

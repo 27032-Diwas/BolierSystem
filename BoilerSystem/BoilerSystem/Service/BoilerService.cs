@@ -3,17 +3,31 @@ using BoilerSystem.Models;
 
 namespace BoilerSystem.Service;
 
+/// <summary>
+/// Contains all boiler related operations.
+/// </summary>
 public class BoilerService
 {
     private readonly Notification _notification;
-    private Boiler _boiler;
+    private readonly Boiler _boiler;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BoilerService"/> class.
+    /// </summary>
+    /// <param name="notification"> Instance of notification. </param>
+    /// <param name="boiler"> Instance of boiler. </param>
     public BoilerService(Notification notification, Boiler boiler)
     {
         this._notification = notification;
         this._boiler = boiler;
     }
 
-    public async Task StartBoilerSystem(CancellationToken token)
+    /// <summary>
+    /// Starts the boiler system.
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns> Task. </returns>
+    public async Task StartBoilerSystemAsync(CancellationToken token)
     {
         this._boiler.Sequence = BoilerSequence.PrePurge;
         this._boiler.RemainingTime = TimeSpan.FromSeconds(10);

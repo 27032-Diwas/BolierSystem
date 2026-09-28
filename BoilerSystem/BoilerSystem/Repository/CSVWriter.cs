@@ -3,18 +3,29 @@ using static BoilerSystem.Service.Notification;
 
 namespace BoilerSystem.Repository;
 
+/// <summary>
+/// Contains csv read and write operations.
+/// </summary>
 public class CSVWriter
 {
     private readonly string _filePath;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CSVWriter"/> class.
+    /// </summary>
+    /// <param name="filePath"> File path of the log. </param>
     public CSVWriter(string filePath)
     {
         _filePath = filePath;
     }
 
+    /// <summary>
+    /// Reads all the logs from the file.
+    /// </summary>
+    /// <returns> List of logs as string. </returns>
     public async Task<List<string>> LoadLogsAsync()
     {
-        List<string> logs = new();
+        List<string> logs = [];
 
         if (!File.Exists(_filePath))
         {
@@ -42,6 +53,11 @@ public class CSVWriter
         return logs;
     }
 
+    /// <summary>
+    /// Writes the log into the file.
+    /// </summary>
+    /// <param name="logs"> Log to write. </param>
+    /// <returns> Task. </returns>
     public async Task WriteLogAsync(NotificationArgs logs)
     {
         bool fileExists = File.Exists(_filePath);
@@ -58,6 +74,11 @@ public class CSVWriter
         await writer.WriteLineAsync(csvRow);
     }
 
+    /// <summary>
+    /// Convert escape sequence.
+    /// </summary>
+    /// <param name="value"> Word to convert. </param>
+    /// <returns> Converted string. </returns>
     private static string EscapeCsv(string value)
     {
         if (value.Contains(',') || value.Contains('"') || value.Contains('\n'))
@@ -68,9 +89,14 @@ public class CSVWriter
         return value;
     }
 
+    /// <summary>
+    /// Parse string from reading to string array.
+    /// </summary>
+    /// <param name="line"> Line read from file. </param>
+    /// <returns> Array of string containing each field. </returns>
     private static string[] ParseCsvLine(string line)
     {
-        List<string> values = new();
+        List<string> values = [];
         StringBuilder current = new();
 
         bool insideQuotes = false;
@@ -94,6 +120,6 @@ public class CSVWriter
 
         values.Add(current.ToString());
 
-        return values.ToArray();
+        return [.. values];
     }
 }

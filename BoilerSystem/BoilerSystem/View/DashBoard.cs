@@ -2,9 +2,17 @@
 
 namespace BoilerSystem.View;
 
+/// <summary>
+/// Contains display dashboard method.
+/// </summary>
 public class DashBoard
 {
-    public async Task DisplayDashboard(Boiler boiler)
+    /// <summary>
+    /// Displays information in dashboard.
+    /// </summary>
+    /// <param name="boiler"> Instance of boiler. </param>
+    /// <returns> Task. </returns>
+    public async Task DisplayDashboardAsync(Boiler boiler)
     {
         while (true)
         {

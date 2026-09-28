@@ -4,8 +4,17 @@ using System.Reflection;
 
 namespace BoilerSystem.View;
 
+/// <summary>
+/// Contains operations to display and get menu options.
+/// </summary>
 public static class MenuView
 {
+    /// <summary>
+    /// Gets menu option from the user.
+    /// </summary>
+    /// <typeparam name="T"> Type of menu. </typeparam>
+    /// <param name="render"> Application render. </param>
+    /// <returns> Option selected by user. </returns>
     public static T GetMenuOption<T>(bool render = true)
         where T : struct, Enum
     {
@@ -34,6 +43,10 @@ public static class MenuView
         }
     }
 
+    /// <summary>
+    /// Displays the menu to user.
+    /// </summary>
+    /// <typeparam name="T"> Type of menu. </typeparam>
     private static void DisplayMenu<T>()
         where T : struct, Enum
     {
@@ -44,7 +57,13 @@ public static class MenuView
         }
     }
 
-    private static string GetDisplayName<T>(T option) where T : Enum
+    /// <summary>
+    /// Gets display name of the option.
+    /// </summary>
+    /// <typeparam name="T"> Type of menu. </typeparam>
+    /// <param name="option"> Option in the menu. </param>
+    /// <returns> Display name of the option. </returns>
+    private static string GetDisplayName<T>(T option) where T : struct, Enum
     {
         MemberInfo memberInfo = typeof(T).GetMember(option.ToString())[0];
         if (memberInfo is not null)

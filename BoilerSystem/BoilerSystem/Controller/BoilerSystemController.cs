@@ -12,6 +12,15 @@ public class BoilerSystemController
     private readonly Notification _notifications;
     private readonly LoggerService _loggerService;
     private CancellationTokenSource _cancellationTokenSource;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BoilerSystemController"/> class.
+    /// </summary>
+    /// <param name="boilerService"> Instance of boiler service. </param>
+    /// <param name="boiler"> Instance of boiler</param>
+    /// <param name="cancellationTokenSource"> Instance of cancellation token source. </param>
+    /// <param name="notifications"> Instance of notification. </param>
+    /// <param name="loggerService"> Instance of logger service. </param>
     public BoilerSystemController(BoilerService boilerService, Boiler boiler, CancellationTokenSource cancellationTokenSource, Notification notifications, LoggerService loggerService)
     {
         this._boilerService = boilerService;
@@ -21,6 +30,10 @@ public class BoilerSystemController
         this._loggerService = loggerService;
     }
 
+    /// <summary>
+    /// Starts the boiler sequence.
+    /// </summary>
+    /// <param name="cancellationTokenSource"> Instance of cancellation token source. </param>
     public void StartBoilerSequence(CancellationTokenSource cancellationTokenSource)
     {
         try
@@ -37,7 +50,7 @@ public class BoilerSystemController
             }
 
             this._cancellationTokenSource = cancellationTokenSource;
-            _ = this._boilerService.StartBoilerSystem(this._cancellationTokenSource.Token);
+            _ = this._boilerService.StartBoilerSystemAsync(this._cancellationTokenSource.Token);
             this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence started.");
         }
         catch (OperationCanceledException)
@@ -46,6 +59,9 @@ public class BoilerSystemController
         }
     }
 
+    /// <summary>
+    /// Stops the boiler sequence.
+    /// </summary>
     public void StopBoilerSequence()
     {
         if (this._boiler.Sequence == BoilerSequence.Idle)
@@ -59,6 +75,9 @@ public class BoilerSystemController
         this._cancellationTokenSource.Cancel();
     }
 
+    /// <summary>
+    /// Resets the boiler system state.
+    /// </summary>
     public void ResetLockOut()
     {
         if (this._boiler.Sequence != BoilerSequence.Idle)
@@ -77,6 +96,9 @@ public class BoilerSystemController
         }
     }
 
+    /// <summary>
+    /// Toggle the interlock switch.
+    /// </summary>
     public void ToggleInterlock()
     {
         if (this._boiler.Switch == InterLockSwitch.Open)
@@ -90,6 +112,9 @@ public class BoilerSystemController
         this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "InterLock switch toggled to open.");
     }
 
+    /// <summary>
+    /// Simulates error.
+    /// </summary>
     public void SimulateError()
     {
         if (this._boiler.Sequence != BoilerSequence.Operational)
@@ -106,6 +131,9 @@ public class BoilerSystemController
         return;
     }
 
+    /// <summary>
+    /// Displays all logs.
+    /// </summary>
     public void ViewLogs()
     {
         DisplayView.DisplayLogs(this._loggerService.GetAllLogs());
