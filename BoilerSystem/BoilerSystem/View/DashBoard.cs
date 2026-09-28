@@ -17,10 +17,12 @@ public class DashBoard
         while (true)
         {
             RenderConsole.RenderDashboard();
-            DisplayView.DisplayMessage("BOILER CONTROLLER SYSTEM");
-            DisplayView.DisplayMessage($"Boiler State: {boiler.State}");
+            DisplayView.DisplayMessage("============================================================");
+            DisplayView.DisplayMessage("                BOILER CONTROLLER SYSTEM");
+            DisplayView.DisplayMessage("============================================================");
+            DisplayView.DisplayMessage($"\nBoiler State: {boiler.State}");
             DisplayView.DisplayMessage($"InterLock Switch State: {boiler.Switch}");
-            DisplayView.DisplayMessage($"Boiler Sequence: {boiler.Sequence}");
+            DisplayView.DisplayMessage($"Boiler Sequence: {boiler.Sequence} \n");
 
             if (boiler.Sequence == Enums.BoilerSequence.PrePurge || boiler.Sequence == Enums.BoilerSequence.Ignition)
             {

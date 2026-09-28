@@ -30,13 +30,23 @@ public class NotificationView
         RenderConsole.RenderNotification();
         if (args.Event.Equals("ERROR"))
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             DisplayView.DisplayMessage($"ERROR: [{args.Message}], System in Lockout");
+            Console.ResetColor();
+        }
+        else if (args.Event.Equals("WARNING"))
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            DisplayView.DisplayMessage(args.Message);
+            Console.ResetColor();
         }
         else
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             DisplayView.DisplayMessage(args.Message);
+            Console.ResetColor();
         }
 
-        RenderConsole.SetCursorBack();
+            RenderConsole.SetCursorBack();
     }
 }

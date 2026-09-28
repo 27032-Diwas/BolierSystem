@@ -40,22 +40,22 @@ public class BoilerSystemController
         {
             if (this._boiler.Switch == InterLockSwitch.Open)
             {
-                this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "Toggle the interlock switch to close state to start boiler sequence.");
+                this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "Toggle the interlock switch to close state to start boiler sequence");
                 return;
             }
             else if (this._boiler.State == BoilerState.LockOut)
             {
-                this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "Reset the lock out to start boiler sequence.");
+                this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "Reset the lock out to start boiler sequence");
                 return;
             }
 
             this._cancellationTokenSource = cancellationTokenSource;
             _ = this._boilerService.StartBoilerSystemAsync(this._cancellationTokenSource.Token);
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence started.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence started");
         }
         catch (OperationCanceledException)
         {
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence cancelled successfully.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence cancelled successfully");
         }
     }
 
@@ -66,11 +66,11 @@ public class BoilerSystemController
     {
         if (this._boiler.Sequence == BoilerSequence.Idle)
         {
-            this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "No active boiler sequence to stop.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "No active boiler sequence to stop");
             return;
         }
 
-        this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence cancelled.");
+        this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence cancelled");
         this._boiler.Sequence = BoilerSequence.Idle;
         this._cancellationTokenSource.Cancel();
     }
@@ -85,14 +85,14 @@ public class BoilerSystemController
             StopBoilerSequence();
             this._boiler.Sequence = BoilerSequence.Idle;
             this._boiler.State = BoilerState.LockOut;
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state changed to lockout.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state changed to lockout");
             return;
         }
 
         if (this._boiler.State == BoilerState.LockOut && this._boiler.Switch == InterLockSwitch.Close)
         {
             this._boiler.State = BoilerState.Ready;
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state changed to ready.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state changed to ready");
         }
     }
 
@@ -104,12 +104,12 @@ public class BoilerSystemController
         if (this._boiler.Switch == InterLockSwitch.Open)
         {
             this._boiler.Switch = InterLockSwitch.Close;
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "InterLock switch toggled to close.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "InterLock switch toggled to close");
             return;
         }
 
         this._boiler.Switch = InterLockSwitch.Open;
-        this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "InterLock switch toggled to open.");
+        this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "InterLock switch toggled to open");
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public class BoilerSystemController
     {
         if (this._boiler.Sequence != BoilerSequence.Operational)
         {
-            this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "Can only simulate error when boiler sequence is operational.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "WARNING", "Can only simulate error when boiler sequence is operational");
             return;
         }
 
@@ -127,7 +127,7 @@ public class BoilerSystemController
         this._boiler.Sequence = BoilerSequence.Idle;
         this._boiler.State = BoilerState.LockOut;
         this._boiler.Switch = InterLockSwitch.Open;
-        this._notifications.OnNotify(this, DateTime.UtcNow, "Error", "Simulated Error.");
+        this._notifications.OnNotify(this, DateTime.UtcNow, "ERROR", "Simulated Error");
         return;
     }
 

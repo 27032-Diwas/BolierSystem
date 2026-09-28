@@ -15,7 +15,7 @@ public static class MenuView
     /// <typeparam name="T"> Type of menu. </typeparam>
     /// <param name="render"> Application render. </param>
     /// <returns> Option selected by user. </returns>
-    public static T GetMenuOption<T>(bool render = true)
+    public static T GetMenuOption<T>(bool render = true, string? note = null)
         where T : struct, Enum
     {
         while (true)
@@ -25,6 +25,13 @@ public static class MenuView
                 RenderConsole.RenderApplication();
             }
             DisplayMenu<T>();
+
+            if (note != null)
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                DisplayView.DisplayMessage(note);
+                Console.ResetColor();
+            }
             DisplayView.DisplayMessage(PromptMessages.SelectOption);
 
             string? input = Console.ReadLine();

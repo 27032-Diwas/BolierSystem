@@ -23,7 +23,7 @@ public class MainMenuController
     {
         while (true)
         {
-            MainMenu option = MenuView.GetMenuOption<MainMenu>();
+            MainMenu option = MenuView.GetMenuOption<MainMenu>(true, "Note: Toggle InterLock -> Reset LockOut -> Start Boiler -> Stop Boiler");
 
             switch (option)
             {
