@@ -2,9 +2,9 @@
 
 public static class HeaderMessages
 {
-    public static string Warning = "WARNING";
+    public const string Warning = "WARNING";
 
-    public static string Info = "INFO";
+    public const string Info = "INFO";
 
-    public static string Error = "ERROR";
+    public const string Error = "ERROR";
 }

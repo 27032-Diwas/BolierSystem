@@ -38,7 +38,7 @@ public class BoilerService
             this._boiler.RemainingTime = this._boiler.EndTime - DateTime.UtcNow;
             await Task.Delay(500, token);
         }
-        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Pre Purge completed");
+        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.Phase1Complete);
 
 
         this._boiler.Sequence = BoilerSequence.Ignition;
@@ -49,10 +49,10 @@ public class BoilerService
             this._boiler.RemainingTime = this._boiler.EndTime - DateTime.UtcNow;
             await Task.Delay(500, token);
         }
-        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Ignition phase completed");
+        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.Phase2Complete);
 
         this._boiler.Sequence = BoilerSequence.Operational;
-        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Boiler now operational");
+        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.BoilerOperational);
         while (true)
         {
             await Task.Delay(1000, token);

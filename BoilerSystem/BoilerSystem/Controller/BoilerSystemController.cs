@@ -100,11 +100,11 @@ public class BoilerSystemController
         if (this._boiler.State == BoilerState.LockOut && this._boiler.Switch == InterLockSwitch.Close)
         {
             this._boiler.State = BoilerState.Ready;
-            this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Boiler state changed to ready");
+            this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.BoilerStateToReady);
             return;
         }
 
-        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Warning, "Change interlock state to close to reset lock out");
+        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Warning, WarningMessages.InterLockToClose);
     }
 
     /// <summary>
@@ -120,12 +120,12 @@ public class BoilerSystemController
         if (this._boiler.Switch == InterLockSwitch.Open)
         {
             this._boiler.Switch = InterLockSwitch.Close;
-            this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "InterLock switch toggled to close");
+            this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.ToggledToClose);
             return;
         }
 
         this._boiler.Switch = InterLockSwitch.Open;
-        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "InterLock switch toggled to open");
+        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.ToggleToOpen);
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ public class BoilerSystemController
     {
         if (this._boiler.Sequence != BoilerSequence.Operational)
         {
-            this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Warning, "Can only simulate error when boiler sequence is operational");
+            this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Warning, WarningMessages.SimulateError);
             return;
         }
 
@@ -143,7 +143,7 @@ public class BoilerSystemController
         this._boiler.Sequence = BoilerSequence.Idle;
         this._boiler.State = BoilerState.LockOut;
         this._boiler.Switch = InterLockSwitch.Open;
-        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Error, "Simulated Error");
+        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Error, InfoMessages.SimulateError);
         return;
     }
 
