@@ -71,6 +71,11 @@ public class BoilerSystemController
             return;
         }
 
+        if (this._boiler.Sequence == BoilerSequence.PrePurge || this._boiler.Sequence == BoilerSequence.Ignition)
+        {
+            this._boiler.State = BoilerState.LockOut;
+        }
+
         this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.StopBoiler);
         this._boiler.Sequence = BoilerSequence.Idle;
         try
