@@ -1,4 +1,5 @@
-﻿using BoilerSystem.Enums;
+﻿using BoilerSystem.Constants;
+using BoilerSystem.Enums;
 using BoilerSystem.Models;
 
 namespace BoilerSystem.Service;
@@ -37,7 +38,7 @@ public class BoilerService
             this._boiler.RemainingTime = this._boiler.EndTime - DateTime.UtcNow;
             await Task.Delay(500, token);
         }
-        this._notification.OnNotify(this, DateTime.UtcNow, "INFO", "Pre Purge completed");
+        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Pre Purge completed");
 
 
         this._boiler.Sequence = BoilerSequence.Ignition;
@@ -48,10 +49,10 @@ public class BoilerService
             this._boiler.RemainingTime = this._boiler.EndTime - DateTime.UtcNow;
             await Task.Delay(500, token);
         }
-        this._notification.OnNotify(this, DateTime.UtcNow, "INFO", "Ignition phase completed");
+        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Ignition phase completed");
 
         this._boiler.Sequence = BoilerSequence.Operational;
-        this._notification.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler now operational");
+        this._notification.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Boiler now operational");
         while (true)
         {
             await Task.Delay(1000, token);

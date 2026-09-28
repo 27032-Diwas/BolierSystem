@@ -1,4 +1,5 @@
-﻿using BoilerSystem.Service;
+﻿using BoilerSystem.Constants;
+using BoilerSystem.Service;
 
 namespace BoilerSystem.View;
 
@@ -28,13 +29,13 @@ public class NotificationView
     {
         RenderConsole.ClearNotification();
         RenderConsole.RenderNotification();
-        if (args.Event.Equals("ERROR"))
+        if (args.Event.Equals(HeaderMessages.Error))
         {
             Console.ForegroundColor = ConsoleColor.Red;
             DisplayView.DisplayMessage($"ERROR: [{args.Message}], System in Lockout");
             Console.ResetColor();
         }
-        else if (args.Event.Equals("WARNING"))
+        else if (args.Event.Equals(HeaderMessages.Warning))
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             DisplayView.DisplayMessage(args.Message);
