@@ -54,7 +54,7 @@ public class BoilerSystemController
             _ = this._boilerService.StartBoilerSystemAsync(this._cancellationTokenSource.Token);
             this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.BoilerStarted);
         }
-        catch (OperationCanceledException)
+        catch (TaskCanceledException)
         {
             this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.StopBoiler);
         }
@@ -71,13 +71,13 @@ public class BoilerSystemController
             return;
         }
 
-        //this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, "Boiler sequence cancelled");
+        this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.StopBoiler);
         this._boiler.Sequence = BoilerSequence.Idle;
         try
         {
             this._cancellationTokenSource.Cancel();
         }
-        catch (OperationCanceledException)
+        catch (TaskCanceledException)
         {
             this._notifications.OnNotify(this, DateTime.UtcNow, HeaderMessages.Info, InfoMessages.StopBoiler);
         }
