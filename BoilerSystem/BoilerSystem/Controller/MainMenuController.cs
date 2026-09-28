@@ -39,6 +39,7 @@ public class MainMenuController
                     this._controller.ResetLockOut();
                     break;
                 case MainMenu.ViewLogs:
+                    this._controller.ViewLogs();
                     break;
 
             }

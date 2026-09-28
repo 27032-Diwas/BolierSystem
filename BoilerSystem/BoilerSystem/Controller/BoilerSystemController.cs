@@ -10,13 +10,15 @@ public class BoilerSystemController
     private readonly BoilerService _boilerService;
     private readonly Boiler _boiler;
     private readonly Notification _notifications;
+    private readonly LoggerService _loggerService;
     private CancellationTokenSource _cancellationTokenSource;
-    public BoilerSystemController(BoilerService boilerService, Boiler boiler, CancellationTokenSource cancellationTokenSource, Notification notifications)
+    public BoilerSystemController(BoilerService boilerService, Boiler boiler, CancellationTokenSource cancellationTokenSource, Notification notifications, LoggerService loggerService)
     {
         this._boilerService = boilerService;
         this._boiler = boiler;
         this._cancellationTokenSource = cancellationTokenSource;
         this._notifications = notifications;
+        this._loggerService = loggerService;
     }
 
     public void StartBoilerSequence(CancellationTokenSource cancellationTokenSource)
@@ -53,6 +55,7 @@ public class BoilerSystemController
         }
 
         this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler sequence cancelled.");
+        this._boiler.Sequence = BoilerSequence.Idle;
         this._cancellationTokenSource.Cancel();
     }
 
@@ -63,14 +66,14 @@ public class BoilerSystemController
             StopBoilerSequence();
             this._boiler.Sequence = BoilerSequence.Idle;
             this._boiler.State = BoilerState.LockOut;
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state is set to lockout.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state changed to lockout.");
             return;
         }
 
         if (this._boiler.State == BoilerState.LockOut && this._boiler.Switch == InterLockSwitch.Close)
         {
             this._boiler.State = BoilerState.Ready;
-            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state is set to ready.");
+            this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Boiler state changed to ready.");
         }
     }
 
@@ -99,7 +102,12 @@ public class BoilerSystemController
         this._boiler.Sequence = BoilerSequence.Idle;
         this._boiler.State = BoilerState.LockOut;
         this._boiler.Switch = InterLockSwitch.Open;
-        this._notifications.OnNotify(this, DateTime.UtcNow, "INFO", "Simulated Error.");
+        this._notifications.OnNotify(this, DateTime.UtcNow, "Error", "Simulated Error.");
         return;
+    }
+
+    public void ViewLogs()
+    {
+        DisplayView.DisplayLogs(this._loggerService.GetAllLogs());
     }
 }

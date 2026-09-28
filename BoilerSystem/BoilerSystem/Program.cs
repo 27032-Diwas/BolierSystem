@@ -1,6 +1,7 @@
 ﻿using BoilerSystem.Controller;
 using BoilerSystem.Enums;
 using BoilerSystem.Models;
+using BoilerSystem.Repository;
 using BoilerSystem.Service;
 using BoilerSystem.View;
 
@@ -11,11 +12,14 @@ public  class Program
     public static void Main()
     {
         Notification notification = new Notification();
-        LoggerService loggerService = new LoggerService();
+        CSVWriter csvWriter = new CSVWriter("BoilerLog.csv");
+        LoggerRepository loggerRepository = new(csvWriter);
+        LoggerService loggerService = new LoggerService(notification, loggerRepository);
+        _ = loggerService.LoadLogs();
         Boiler boiler = new Boiler(BoilerState.LockOut, InterLockSwitch.Open, BoilerSequence.Idle);
         notification.OnNotify(null, DateTime.UtcNow, "INFO", "Boiler initialized.");
         BoilerService boilerService = new BoilerService(notification, boiler);
-        BoilerSystemController boilerSystemController = new BoilerSystemController(boilerService, boiler, new CancellationTokenSource(), notification);
+        BoilerSystemController boilerSystemController = new BoilerSystemController(boilerService, boiler, new CancellationTokenSource(), notification, loggerService);
         MainMenuController mainMenuController = new MainMenuController(boilerSystemController);
         DashBoard dashBoard = new DashBoard();
         NotificationView notificationView = new NotificationView(notification);

@@ -1,4 +1,4 @@
-﻿namespace ParkingApplication.View;
+﻿namespace BoilerSystem.View;
 
 public static class RenderConsole
 {
@@ -14,6 +14,7 @@ public static class RenderConsole
     private static int _notificationStartColumn => Console.WindowWidth * 3 / 10;
 
     private static (int, int) _recentCursorPosition;
+    private static int _recentNotificationRow;
 
     public static void RenderDashboard()
     {
@@ -61,7 +62,7 @@ public static class RenderConsole
 
     public static void ClearNotification()
     {
-        for (int row = _notificationStartColumn; row < Console.WindowHeight; row++)
+        for (int row = _notificationStartRow; row < Console.WindowHeight; row++)
         {
             Console.SetCursorPosition(_notificationStartColumn, row);
 

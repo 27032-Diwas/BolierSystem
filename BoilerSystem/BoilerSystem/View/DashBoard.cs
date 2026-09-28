@@ -1,6 +1,4 @@
 ﻿using BoilerSystem.Models;
-using ParkingApplication.View;
-using System.Runtime.CompilerServices;
 
 namespace BoilerSystem.View;
 
@@ -11,6 +9,7 @@ public class DashBoard
         while (true)
         {
             RenderConsole.RenderDashboard();
+            DisplayView.DisplayMessage("BOILER CONTROLLER SYSTEM");
             DisplayView.DisplayMessage($"Boiler State: {boiler.State}");
             DisplayView.DisplayMessage($"InterLock Switch State: {boiler.Switch}");
             DisplayView.DisplayMessage($"Boiler Sequence: {boiler.Sequence}");
@@ -20,7 +19,9 @@ public class DashBoard
                 DisplayView.DisplayMessage($"Remaining Time: {boiler.RemainingTime}");
             }
 
-            await Task.Delay(5000);
+
+            RenderConsole.SetCursorBack();
+            await Task.Delay(500);
         }
     }
 }

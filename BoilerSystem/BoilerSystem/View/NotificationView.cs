@@ -1,5 +1,4 @@
 ﻿using BoilerSystem.Service;
-using ParkingApplication.View;
 
 namespace BoilerSystem.View;
 
@@ -14,7 +13,17 @@ public class NotificationView
 
     public void DisplayNotification(object? sender, Notification.NotificationArgs args)
     {
+        RenderConsole.ClearNotification();
         RenderConsole.RenderNotification();
-        DisplayView.DisplayMessage($"{args.TimeStamp}: [{args.Event}] {args.Message}");
+        if (args.Event.Equals("ERROR"))
+        {
+            DisplayView.DisplayMessage($"ERROR: [{args.Message}], System in Lockout");
+        }
+        else
+        {
+            DisplayView.DisplayMessage(args.Message);
+        }
+
+        RenderConsole.SetCursorBack();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using BoilerSystem.Constants;
-using ParkingApplication.View;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
@@ -7,18 +6,25 @@ namespace BoilerSystem.View;
 
 public static class MenuView
 {
-    public static T GetMenuOption<T>()
+    public static T GetMenuOption<T>(bool render = true)
         where T : struct, Enum
     {
         while (true)
         {
-            RenderConsole.RenderApplication();
+            if (render)
+            {
+                RenderConsole.RenderApplication();
+            }
             DisplayMenu<T>();
             DisplayView.DisplayMessage(PromptMessages.SelectOption);
 
             string? input = Console.ReadLine();
             if (int.TryParse(input, out int option) && Enum.IsDefined(typeof(T), option))
             {
+                if (render)
+                {
+                    RenderConsole.SetCursorBack();
+                }
                 return (T)Enum.ToObject(typeof(T), option);
             }
             else
